@@ -759,10 +759,9 @@ const Game = ({ topic, onReturnToMenu, onNextTopic, onStartPractice }) => {
             "div",
             { className: "text-center" },
             // FIX: To resolve a TypeScript type inference issue, children are wrapped in a React.Fragment.
-            React.createElement(React.Fragment, null,
-              React.createElement("p", { className: `text-lg font-semibold ${feedback.type === 'correct' ? 'text-green-500' : 'text-red-500'}` }, feedback.message),
-              feedback.example ? React.createElement("p", { className: "text-lg text-gray-500 mt-1 italic" }, `e.g., "${feedback.example}"`) : null
-            )
+            // FIX: The error here is likely due to a subtle TypeScript type inference issue with string children in this context. Wrapping the string child in a fragment, similar to other workarounds in this file, resolves the type ambiguity for the compiler.
+            React.createElement("p", { className: `text-lg font-semibold ${feedback.type === 'correct' ? 'text-green-500' : 'text-red-500'}` }, React.createElement(React.Fragment, null, feedback.message)),
+            feedback.example ? React.createElement("p", { className: "text-lg text-gray-500 mt-1 italic" }, `e.g., "${feedback.example}"`) : null
           )
           : (showHint
             ? React.createElement("div", { className: "relative" },
@@ -856,7 +855,8 @@ const TopicSelector = ({ playerName, onSelectTopic }) => {
     "div", { className: "flex flex-col items-center min-h-screen p-4" },
     React.createElement(
       "div", { className: "w-full max-w-6xl text-center py-8" },
-      React.createElement("h1", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-2" }, `Welcome, ${playerName}!`),
+      // FIX: The error here is likely due to a subtle TypeScript type inference issue with string children in this context. Wrapping the string child in a fragment, similar to other workarounds in this file, resolves the type ambiguity for the compiler.
+      React.createElement("h1", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-2" }, React.createElement(React.Fragment, null, `Welcome, ${playerName}!`)),
       React.createElement("p", { className: "text-lg text-gray-600 mb-8" }, "Choose a topic to begin your challenge."),
       React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" },
         vocabularyData.map((topic, index) =>
