@@ -704,15 +704,23 @@
         };
 
         if (isFinished) {
-          return React.createElement(GameSummary, { 
-            score, 
-            total: words.length, 
-            onShowWrongAnswers: () => setShowWrongAnswersModal(true), 
-            onNextTopic, 
-            onReturnToMenu,
-            onPracticeMistakes: handlePracticeMistakes,
-            mistakesCount: wrongAnswers.length 
-          });
+          return React.createElement(React.Fragment, null,
+            React.createElement(GameSummary, { 
+              score, 
+              total: words.length, 
+              onShowWrongAnswers: () => setShowWrongAnswersModal(true), 
+              onNextTopic, 
+              onReturnToMenu,
+              onPracticeMistakes: handlePracticeMistakes,
+              mistakesCount: wrongAnswers.length 
+            }),
+            React.createElement(WrongAnswersModal, { 
+              isOpen: showWrongAnswersModal, 
+              onClose: () => setShowWrongAnswersModal(false), 
+              mistakes: wrongAnswers,
+              onPracticeMistakes: handlePracticeMistakes 
+            })
+          );
         }
 
         if (!currentWord) {
@@ -970,4 +978,3 @@
     </script>
   </body>
 </html>
---- END OF FILE index.html ---
